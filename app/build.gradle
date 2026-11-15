@@ -1,11 +1,11 @@
 plugins { id 'com.android.application' }
 
 android {
-    namespace 'com.vanipy.edgelab'
+    namespace 'com.vanipy.onda'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.vanipy.edgelab"
+        applicationId "com.vanipy.onda"
         minSdk 26
         targetSdk 34
         versionCode 1

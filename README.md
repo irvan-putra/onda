@@ -1,4 +1,4 @@
-# Edge AI Lab
+# Onda
 
 On-device sensor + small-model playground for Android, built for the
 Edge AI Multimodal Demos talk. Test build 0.1 — **not phone-tested yet**;

@@ -1,4 +1,4 @@
-package com.vanipy.edgelab.ort;
+package com.vanipy.onda.ort;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 
-import com.vanipy.edgelab.vision.Yolo;
+import com.vanipy.onda.vision.Yolo;
 
 import java.util.ArrayList;
 import java.util.List;

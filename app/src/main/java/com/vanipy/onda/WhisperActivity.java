@@ -1,4 +1,4 @@
-package com.vanipy.edgelab;
+package com.vanipy.onda;
 
 import android.Manifest;
 import android.app.Activity;
@@ -22,9 +22,9 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.vanipy.edgelab.ort.ModelStore;
-import com.vanipy.edgelab.whisper.MelSpectrogram;
-import com.vanipy.edgelab.whisper.WhisperEngine;
+import com.vanipy.onda.ort.ModelStore;
+import com.vanipy.onda.whisper.MelSpectrogram;
+import com.vanipy.onda.whisper.WhisperEngine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

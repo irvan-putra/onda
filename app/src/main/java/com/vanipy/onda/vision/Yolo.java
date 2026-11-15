@@ -1,4 +1,4 @@
-package com.vanipy.edgelab.vision;
+package com.vanipy.onda.vision;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

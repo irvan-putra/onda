@@ -1,8 +1,8 @@
-package com.vanipy.edgelab;
+package com.vanipy.onda;
 
 import android.graphics.Bitmap;
 
-import com.vanipy.edgelab.vision.Yolo;
+import com.vanipy.onda.vision.Yolo;
 
 import java.nio.FloatBuffer;
 import java.util.Collections;
@@ -13,13 +13,14 @@ import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtSession;
 
-public class PoseActivity extends CameraModelActivity {
+public class DetectActivity extends CameraModelActivity {
 
     private static final int SIZE = 640;
 
     @Override
     protected OrtSession createSession(OrtEnvironment env) throws Exception {
-        return env.createSession(assetToFile("models/yolov8n-pose.onnx").getAbsolutePath(),
+        labels = loadLabels("coco.txt");
+        return env.createSession(assetToFile("models/yolov8n.onnx").getAbsolutePath(),
                 new OrtSession.SessionOptions());
     }
 
@@ -33,22 +34,23 @@ public class PoseActivity extends CameraModelActivity {
              OrtSession.Result res = session.run(Collections.singletonMap("images", input))) {
             float[][][] out = (float[][][]) res.get(0).getValue();
             long ms = (System.nanoTime() - t0) / 1_000_000;
-            float[] flat = new float[56 * 8400];
-            for (int c = 0; c < 56; c++) System.arraycopy(out[0][c], 0, flat, c * 8400, 8400);
-            List<Yolo.Pose> poses = Yolo.parsePose(flat, 8400, 0.4f);
-            for (Yolo.Pose p : poses) {
-                p.x1 = Yolo.unletterboxX(p.x1, tp); p.x2 = Yolo.unletterboxX(p.x2, tp);
-                p.y1 = Yolo.unletterboxY(p.y1, tp); p.y2 = Yolo.unletterboxY(p.y2, tp);
-                for (int k = 0; k < 17; k++) {
-                    p.kpts[k * 3] = Yolo.unletterboxX(p.kpts[k * 3], tp);
-                    p.kpts[k * 3 + 1] = Yolo.unletterboxY(p.kpts[k * 3 + 1], tp);
-                }
+            List<Yolo.Det> dets = Yolo.parseDetect(flatten(out[0]), 8400, 80, 0.25f);
+            for (Yolo.Det d : dets) {
+                d.x1 = Yolo.unletterboxX(d.x1, tp); d.x2 = Yolo.unletterboxX(d.x2, tp);
+                d.y1 = Yolo.unletterboxY(d.y1, tp); d.y2 = Yolo.unletterboxY(d.y2, tp);
             }
-            String msg = String.format(Locale.US, "%d person(s) · %d ms/frame", poses.size(), ms);
+            String msg = String.format(Locale.US, "%d objects · %d ms/frame", dets.size(), ms);
             runOnUiThread(() -> {
-                overlay.setResults(null, poses, null, frame.getWidth(), frame.getHeight());
+                overlay.setResults(dets, null, labels, frame.getWidth(), frame.getHeight());
                 status.setText(msg);
             });
         }
+    }
+
+    private static float[] flatten(float[][] a) {
+        int c = a.length, n = a[0].length;
+        float[] out = new float[c * n];
+        for (int i = 0; i < c; i++) System.arraycopy(a[i], 0, out, i * n, n);
+        return out;
     }
 }

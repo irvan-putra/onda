@@ -1,4 +1,4 @@
-package com.vanipy.edgelab;
+package com.vanipy.onda;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -17,7 +17,7 @@ public class AboutActivity extends Activity {
         tv.setPadding(pad, pad, pad, pad);
         tv.setTextSize(14);
         tv.setText(String.join("\n",
-                "Edge AI Lab - on-device sensor and model playground",
+                "Onda - on-device sensor and model playground",
                 "Built for the Edge AI Multimodal Demos talk. Test build 0.1.",
                 "",
                 "MODELS",

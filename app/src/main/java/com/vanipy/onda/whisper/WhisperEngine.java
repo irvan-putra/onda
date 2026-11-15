@@ -1,4 +1,4 @@
-package com.vanipy.edgelab.whisper;
+package com.vanipy.onda.whisper;
 
 import java.io.File;
 import java.nio.FloatBuffer;

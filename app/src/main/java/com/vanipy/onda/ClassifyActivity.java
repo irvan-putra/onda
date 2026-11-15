@@ -1,4 +1,4 @@
-package com.vanipy.edgelab;
+package com.vanipy.onda;
 
 import android.graphics.Bitmap;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.vanipy.edgelab.ort.ModelStore;
+import com.vanipy.onda.ort.ModelStore;
 
 import java.io.File;
 import java.nio.FloatBuffer;

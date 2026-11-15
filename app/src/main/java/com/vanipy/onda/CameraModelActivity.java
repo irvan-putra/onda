@@ -1,4 +1,4 @@
-package com.vanipy.edgelab;
+package com.vanipy.onda;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -21,7 +21,7 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import com.vanipy.edgelab.ort.OverlayView;
+import com.vanipy.onda.ort.OverlayView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -150,7 +150,7 @@ public abstract class CameraModelActivity extends ComponentActivity {
             if (!live.get() || session == null || !busy.compareAndSet(false, true)) return;
             Bitmap bmp = rgbaToBitmap(image);
             int rot = image.getImageInfo().getRotationDegrees();
-            Bitmap rotated = com.vanipy.edgelab.vision.Yolo.rotate(bmp, rot);
+            Bitmap rotated = com.vanipy.onda.vision.Yolo.rotate(bmp, rot);
             long t0 = System.nanoTime();
             runModel(rotated);
         } catch (Exception e) {
