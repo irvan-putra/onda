@@ -43,10 +43,19 @@ jobs:
           AAPT=$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)
           test -n "$AAPT"
           BADGING=$("$AAPT" dump badging "$APK")
-          printf '%s\n' "$BADGING" | grep -F "package: name='com.vanipy.onda' versionCode='1' versionName='0.1-test'"
+          printf '%s\n' "$BADGING" | grep -F "package: name='com.vanipy.onda' versionCode='2' versionName='0.2-test'"
           printf '%s\n' "$BADGING" | grep -F "application-label:'Onda'"
           printf '%s\n' "$BADGING" | grep -F 'application-icon-'
           unzip -l "$APK" | grep -E 'res/mipmap-(mdpi|hdpi|xhdpi|xxhdpi|xxxhdpi)-v[0-9]+/ic_launcher\.png'
+
+      - name: Upload test APK
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: onda-test-apk-${{ github.sha }}
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 5
 
       - name: Upload unit test reports even when tests fail
         if: always()
