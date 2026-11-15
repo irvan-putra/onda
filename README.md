@@ -1,7 +1,7 @@
 # Onda
 
 On-device sensor + small-model playground for Android, built for the
-Edge AI Multimodal Demos talk. Test build 0.1 — **not phone-tested yet**;
+Edge AI Multimodal Demos talk. Test build 0.2-test — **not phone-tested yet**;
 the verified parts are listed below.
 
 ## What it does
