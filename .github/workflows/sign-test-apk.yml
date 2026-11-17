@@ -38,8 +38,8 @@ jobs:
       # SET: 64 hex digits (uppercase) of the key certificate, printed by the key generator. Not a secret.
       EXPECTED_CERT_SHA256: ADE7D4BF8BD31E06CBBC01D9331F6F74F390C985C7F67E10511CD37C96F0534F
       # SET per release: must equal app/build.gradle and the icon badge. Edit in the release commit.
-      EXPECTED_VERSION_NAME: '0.2.1'
-      EXPECTED_VERSION_CODE: '3'
+      EXPECTED_VERSION_NAME: '0.2.2'
+      EXPECTED_VERSION_CODE: '4'
       EXPECTED_PACKAGE: com.vanipy.onda
       EXPECTED_LABEL: onda
       BUILD_TOOLS_VERSION: 34.0.0
