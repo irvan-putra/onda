@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
         scroll.addView(root);
 
         TextView title = new TextView(this);
-        title.setText("Onda");
+        title.setText("onda");
         title.setTextSize(26);
         title.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(title);

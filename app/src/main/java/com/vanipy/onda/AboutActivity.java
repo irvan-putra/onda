@@ -17,8 +17,8 @@ public class AboutActivity extends Activity {
         tv.setPadding(pad, pad, pad, pad);
         tv.setTextSize(14);
         tv.setText(String.join("\n",
-                "Onda - on-device sensor and model playground",
-                "Built for the Edge AI Multimodal Demos talk. Test build 0.2-test.",
+                "onda - on-device sensor and model playground",
+                "Built for the Edge AI Multimodal Demos talk. Test build 0.2.1.",
                 "",
                 "MODELS",
                 "- YOLOv8n object detection: 3.2M params, 12.9 MB, bundled in the app.",

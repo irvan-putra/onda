@@ -43,8 +43,8 @@ jobs:
           AAPT=$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)
           test -n "$AAPT"
           BADGING=$("$AAPT" dump badging "$APK")
-          printf '%s\n' "$BADGING" | grep -F "package: name='com.vanipy.onda' versionCode='2' versionName='0.2-test'"
-          printf '%s\n' "$BADGING" | grep -F "application-label:'Onda'"
+          printf '%s\n' "$BADGING" | grep -F "package: name='com.vanipy.onda' versionCode='3' versionName='0.2.1'"
+          printf '%s\n' "$BADGING" | grep -F "application-label:'onda'"
           printf '%s\n' "$BADGING" | grep -F 'application-icon-'
           unzip -l "$APK" | grep -E 'res/mipmap-(mdpi|hdpi|xhdpi|xxhdpi|xxxhdpi)-v[0-9]+/ic_launcher\.png'
 
