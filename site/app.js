@@ -1,6 +1,6 @@
 "use strict";
 const $ = id => document.getElementById(id), S = 640;
-const TABS = [["sensors", "Sensor Lab"], ["detect", "Object Detection"], ["pose", "Pose Estimation"], ["classify", "Image Classification"]];
+const TABS = [["sensors", "Sensor Lab"], ["detect", "Object Detection"], ["pose", "Pose Estimation"], ["classify", "Image Classification"], ["speech", "Speech to Text"]];
 let tab = "sensors", COCO = [], IMN = [];
 const SKEL = [[5,7],[7,9],[6,8],[8,10],[5,6],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16],[0,1],[0,2],[1,3],[2,4]];
 const nav = $("nav");
@@ -8,8 +8,8 @@ for (const [id, name] of TABS) { const b = document.createElement("button"); b.t
 function show(id) {
   tab = id;
   for (const [t] of TABS) $(t).classList.toggle("hide", t !== id);
-  $("vision").classList.toggle("hide", id === "sensors");
-  if (id !== "sensors") $("vision").parentNode.insertBefore($("vision"), $(id).nextSibling);
+  $("vision").classList.toggle("hide", id === "sensors" || id === "speech");
+  if (id !== "sensors" && id !== "speech") $("vision").parentNode.insertBefore($("vision"), $(id).nextSibling);
   nav.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.t === id));
   $("vst").textContent = "Pick a photo or start the camera.";
 }
@@ -89,3 +89,41 @@ $("run").onclick = async () => {
   } catch (e) { $("vst").textContent = "Failed: " + e.message; }
   $("run").disabled = false;
 };
+
+/* ---------- Speech to Text (Whisper tiny, 8-bit, in this tab) ---------- */
+let asr = null, rec = null, recStream = null, recTimer = null, chunks = [];
+const sst = m => { $("wst").textContent = m; };
+async function loadAsr() {
+  if (asr) return asr;
+  sst("Loading the speech library and downloading the model (about 41 MB, once; kept in this browser's cache)...");
+  const tf = await import("./whisper/transformers.web.min.js");
+  tf.env.allowLocalModels = false;
+  tf.env.backends.onnx.wasm.numThreads = 1;
+  tf.env.backends.onnx.wasm.wasmPaths = {mjs: new URL("whisper/ort-wasm-simd-threaded.mjs", location.href).href, wasm: new URL("whisper/ort-wasm-simd-threaded.wasm", location.href).href};
+  asr = await tf.pipeline("automatic-speech-recognition", "onnx-community/whisper-tiny", {dtype: "q8", device: "wasm", progress_callback: p => { if (p.status === "progress" && p.total) sst(`Downloading ${p.file.split("/").pop()}: ${Math.round(p.loaded / 1048576)} of ${Math.round(p.total / 1048576)} MB`); }});
+  return asr;
+}
+async function toPcm(blob) {
+  const ctx = new AudioContext({sampleRate: 16000}), buf = await ctx.decodeAudioData(await blob.arrayBuffer()); await ctx.close();
+  const ch = buf.getChannelData(0), n = Math.min(ch.length, 16000 * 30);
+  return ch.slice(0, n);
+}
+async function transcribe(blob) {
+  try {
+    const pcm = await toPcm(blob); if (pcm.length < 1600) throw new Error("audio too short");
+    const m = await loadAsr(); sst("Transcribing on this device..."); const t0 = performance.now();
+    const r = await m(pcm, {language: "english", task: "transcribe"});
+    $("wout").textContent = (r.text || "").trim() || "(no speech recognized)";
+    sst(`Done in ${((performance.now() - t0) / 1000).toFixed(1)} s. Audio was processed in this tab only (${(pcm.length / 16000).toFixed(1)} s used, 30 s max).`);
+  } catch (e) { sst("Failed: " + e.message); }
+  $("wrec").disabled = false; $("wfile").disabled = false;
+}
+$("wrec").onclick = async () => {
+  if (rec) { clearTimeout(recTimer); rec.stop(); return; }
+  try { recStream = await navigator.mediaDevices.getUserMedia({audio: true}); } catch (e) { sst("Microphone unavailable (" + e.name + "). Pick an audio file instead."); return; }
+  chunks = []; rec = new MediaRecorder(recStream);
+  rec.ondataavailable = e => chunks.push(e.data);
+  rec.onstop = () => { recStream.getTracks().forEach(t => t.stop()); const b = new Blob(chunks, {type: rec.mimeType}); rec = null; $("wrec").textContent = "Record"; $("wrec").disabled = true; $("wfile").disabled = true; transcribe(b); };
+  rec.start(); $("wrec").textContent = "Stop"; sst("Recording (stops itself at 30 s)..."); recTimer = setTimeout(() => rec && rec.stop(), 30000);
+};
+$("wf").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (!f) return; $("wrec").disabled = true; $("wfile").disabled = true; transcribe(f); };

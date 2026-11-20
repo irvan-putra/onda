@@ -3,3 +3,5 @@ Onda web companion - provenance
 - mobilenetv2-7.onnx: ONNX Model Zoo MobileNetV2, Apache-2.0. https://github.com/onnx/models  License: models/LICENSE-mobilenetv2-onnx-models-Apache-2.0.txt
 - ONNX Runtime Web 1.31.1 (MIT): ort/LICENSE-onnxruntime-web-MIT.txt
 - App code ported from the Onda Android app, AGPL-3.0 (declared by the owner 2026-11-20). https://github.com/irvan-putra/onda
+- Speech to Text: Whisper tiny, OpenAI (MIT per github.com/openai/whisper; the Hugging Face model card for openai/whisper-tiny says Apache-2.0), ONNX export onnx-community/whisper-tiny (8-bit files), downloaded from huggingface.co when you press Record or pick an audio file. https://huggingface.co/onnx-community/whisper-tiny
+  Runtime: transformers.js 4.3.2 (Apache-2.0, whisper/LICENSE-transformersjs-Apache-2.0.txt) with ONNX Runtime Web (MIT, whisper/LICENSE-onnxruntime-web-MIT.txt).

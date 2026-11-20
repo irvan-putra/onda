@@ -14,7 +14,7 @@ canvas,video{max-width:100%;border-radius:8px;background:#000}.stage{position:re
 table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:4px 6px;text-align:left;font-variant-numeric:tabular-nums}a{color:var(--ac)}
 </style></head><body><main>
 <h1>Onda</h1>
-<p>Sensors and small on-device models, in your browser. Everything runs in this tab; photos and camera frames are not uploaded. This is a counterpart to the Android app, which stays the full version (every Android sensor, speech to text).</p>
+<p>Sensors and small on-device models, in your browser. Everything runs in this tab; photos and camera frames are not uploaded. This is a counterpart to the Android app, which stays the full version (every Android sensor).</p>
 <nav id="nav"></nav>
 
 <section id="sensors" class="card"><h2>Sensor Lab</h2>
@@ -26,6 +26,11 @@ table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd
 <section id="pose" class="card hide"><h2>Pose Estimation</h2><p class="mut">YOLOv8n-pose, 17 keypoints, confidence 0.40.</p></section>
 <section id="classify" class="card hide"><h2>Image Classification</h2><p class="mut">MobileNetV2, top-3 of 1000 ImageNet labels, center-cropped. The model (14 MB) loads only when you press the button.</p></section>
 
+<section id="speech" class="card hide"><h2>Speech to Text</h2>
+<p class="mut">Whisper tiny (8-bit, OpenAI; see NOTICE for license). Pressing Record or choosing a file downloads the model once, about 41 MB of model files (plus small config files) from Hugging Face (onnx-community/whisper-tiny), and your browser keeps it. Audio is transcribed in this tab and is not uploaded. Up to 30 s, English. This is the first thing on this page that contacts another server.</p>
+<button id="wrec">Record</button><label class="btn" style="background:var(--mut)" id="wfile">Pick an audio file<input id="wf" type="file" accept="audio/*"></label>
+<p id="wst" class="mut">Not run yet.</p><p id="wout"></p></section>
+
 <div id="vision" class="card hide">
 <div class="stage"><canvas id="cv" width="640" height="480"></canvas><video id="v" playsinline muted class="hide"></video></div>
 <button id="cam">Start camera</button><label class="btn" style="background:var(--mut)">Pick a photo<input id="pf" type="file" accept="image/*"></label>
@@ -33,6 +38,6 @@ table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd
 <p id="vst" class="mut">Pick a photo or start the camera. If the camera is not available, a photo works the same way.</p></div>
 
 <p class="mut"><a href="https://github.com/irvan-putra/onda">Source (AGPL-3.0)</a> · <a href="https://github.com/irvan-putra/onda">Android app (same repo)</a> · <a href="NOTICE.txt">Model and runtime licenses</a></p>
-<p class="mut">Not validated on a physical phone yet: sensor availability, camera capture and speed on phones are untested. Speech to text (Whisper) is Android-only for now.</p>
+<p class="mut">Not validated on a physical phone yet: sensor availability, camera capture and speed on phones are untested. Speech to text was tested on a desktop clip only; microphone recording and speed on phones are not validated. The microphone needs HTTPS and your permission.</p>
 <script src="ort/ort.wasm.min.js"></script>
 <script src="app.js"></script></main></body></html>
