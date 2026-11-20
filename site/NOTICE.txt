@@ -1,0 +1,5 @@
+Onda web companion - provenance
+- yolov8n.onnx, yolov8n-pose.onnx: Ultralytics YOLOv8n weights (AGPL-3.0), same files as the Android app. https://github.com/ultralytics/ultralytics . Full text: LICENSE.txt
+- mobilenetv2-7.onnx: ONNX Model Zoo MobileNetV2, Apache-2.0. https://github.com/onnx/models  License: models/LICENSE-mobilenetv2-onnx-models-Apache-2.0.txt
+- ONNX Runtime Web 1.31.1 (MIT): ort/LICENSE-onnxruntime-web-MIT.txt
+- App code ported from the Onda Android app, AGPL-3.0 (declared by the owner 2026-11-20). https://github.com/irvan-putra/onda

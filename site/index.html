@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Onda - sensors and small models in the browser</title>
+<style>
+:root{color-scheme:light dark;--bg:#f4f6f8;--fg:#18212b;--card:#fff;--ac:#2563a8;--mut:#5a6672;--bd:#d6dce2}
+@media(prefers-color-scheme:dark){:root{--bg:#12171c;--fg:#e6ebf0;--card:#1b2229;--ac:#6cb0f5;--mut:#9aa7b3;--bd:#2c353e}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:780px;margin:0 auto;padding:16px}.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:12px 0}
+nav{display:flex;gap:6px;flex-wrap:wrap}nav button{background:var(--card);color:var(--fg);border:1px solid var(--bd)}nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button,label.btn{display:inline-block;background:var(--ac);color:#fff;border:0;border-radius:8px;padding:9px 13px;font:inherit;cursor:pointer;margin:4px 6px 0 0}
+@media(prefers-color-scheme:dark){button.on,button:not(nav button),label.btn{color:#0b141c}}
+button:disabled{opacity:.45}input[type=file]{display:none}.mut{color:var(--mut);font-size:.9em}
+canvas,video{max-width:100%;border-radius:8px;background:#000}.stage{position:relative}.hide{display:none}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:4px 6px;text-align:left;font-variant-numeric:tabular-nums}a{color:var(--ac)}
+</style></head><body><main>
+<h1>Onda</h1>
+<p>Sensors and small on-device models, in your browser. Everything runs in this tab; photos and camera frames are not uploaded. This is a counterpart to the Android app, which stays the full version (every Android sensor, speech to text).</p>
+<nav id="nav"></nav>
+
+<section id="sensors" class="card"><h2>Sensor Lab</h2>
+<p class="mut">Shows only what this browser exposes through the Generic Sensor API (Chrome on Android, secure page). Android's own list is longer. A sensor that is missing here may still exist on the phone.</p>
+<button id="sstart">Start sensors</button> <span id="sst" class="mut"></span>
+<table><tbody id="stb"></tbody></table></section>
+
+<section id="detect" class="card hide"><h2>Object Detection</h2><p class="mut">YOLOv8n, 80 COCO classes, confidence 0.25.</p></section>
+<section id="pose" class="card hide"><h2>Pose Estimation</h2><p class="mut">YOLOv8n-pose, 17 keypoints, confidence 0.40.</p></section>
+<section id="classify" class="card hide"><h2>Image Classification</h2><p class="mut">MobileNetV2, top-3 of 1000 ImageNet labels, center-cropped. The model (14 MB) loads only when you press the button.</p></section>
+
+<div id="vision" class="card hide">
+<div class="stage"><canvas id="cv" width="640" height="480"></canvas><video id="v" playsinline muted class="hide"></video></div>
+<button id="cam">Start camera</button><label class="btn" style="background:var(--mut)">Pick a photo<input id="pf" type="file" accept="image/*"></label>
+<button id="run" disabled>Run on current frame</button>
+<p id="vst" class="mut">Pick a photo or start the camera. If the camera is not available, a photo works the same way.</p></div>
+
+<p class="mut"><a href="https://github.com/irvan-putra/onda">Source (AGPL-3.0)</a> · <a href="https://github.com/irvan-putra/onda">Android app (same repo)</a> · <a href="NOTICE.txt">Model and runtime licenses</a></p>
+<p class="mut">Not validated on a physical phone yet: sensor availability, camera capture and speed on phones are untested. Speech to text (Whisper) is Android-only for now.</p>
+<script src="ort/ort.wasm.min.js"></script>
+<script src="app.js"></script></main></body></html>
