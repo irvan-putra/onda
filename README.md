@@ -61,3 +61,7 @@ Needs JDK 17, Android SDK 34, Gradle 8.7.
 - Whisper tiny ONNX (quantized): OpenAI Whisper, MIT; export by onnx-community (huggingface.co/onnx-community/whisper-tiny)
 - MobileNetV2: ONNX Model Zoo, Apache-2.0 (github.com/onnx/models)
 - ONNX Runtime: Microsoft, MIT
+
+## License
+
+AGPL-3.0: the GNU Affero General Public License, version 3 (see `LICENSE`). Declared for this repository by its owner on 2026-11-20, because the bundled YOLO models are AGPL-3.0. Other components keep their own licenses (see the "Sources and licenses" notes).
